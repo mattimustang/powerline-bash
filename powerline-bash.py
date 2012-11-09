@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 import os
@@ -14,7 +14,8 @@ class Powerline:
         },
         'patched': {
             'separator': u'\u2B80',
-            'separator_thin': u'\u2B81'
+            #'separator_thin': u'\u2B81'
+            'separator_thin': u'/'
         }
     }
     LSQESCRSQ = '\\[\\e%s\\]'
@@ -80,8 +81,8 @@ def add_cwd_segment(powerline, cwd, maxdepth):
         names = names[:2] + [u'\u2026'] + names[2-maxdepth:]
 
     for n in names[:-1]:
-        powerline.append(Segment(powerline, ' %s ' % n, 250, 237, powerline.separator_thin, 244))
-    powerline.append(Segment(powerline, ' %s ' % names[-1], 254, 237))
+        powerline.append(Segment(powerline, '%s' % n, 250, 237, powerline.separator_thin, 244))
+    powerline.append(Segment(powerline, '%s' % names[-1], 254, 237))
 
 def get_hg_status():
     has_modified_files = False
@@ -220,14 +221,13 @@ def add_root_indicator(powerline, error):
     if int(error) != 0:
         fg = 15
         bg = 161
-    powerline.append(Segment(powerline, ' \\$ ', fg, bg))
+    powerline.append(Segment(powerline, '\\$', fg, bg))
 
 if __name__ == '__main__':
     p = Powerline(mode='patched')
     cwd = os.getcwd()
-    add_virtual_env_segment(p, cwd)
-    #p.append(Segment(powerline, ' \\u ', 250, 240))
-    #p.append(Segment(powerline, ' \\h ', 250, 238))
+    #add_virtual_env_segment(p, cwd)
+    p.append(Segment(p, '\\u@\\h', 250, 240))
     add_cwd_segment(p, cwd, 5)
     add_repo_segment(p, cwd)
     add_root_indicator(p, sys.argv[1] if len(sys.argv) > 1 else 0)
