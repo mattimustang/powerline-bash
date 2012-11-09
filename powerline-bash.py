@@ -144,9 +144,9 @@ def get_git_status():
 def add_git_segment(powerline, cwd):
     green = 148
     red = 161
-    #cmd = "git branch 2> /dev/null | grep -e '\\*'"
+    #cmd = "git branch 2> /dev/null | egrep '\\*'"
     p1 = subprocess.Popen(['git', 'branch'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p2 = subprocess.Popen(['grep', '-e', '\\*'], stdin=p1.stdout, stdout=subprocess.PIPE)
+    p2 = subprocess.Popen(['egrep', '\\*'], stdin=p1.stdout, stdout=subprocess.PIPE)
     output = p2.communicate()[0].strip()
     if len(output) == 0:
         return False
